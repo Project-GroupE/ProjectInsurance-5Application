@@ -22,7 +22,7 @@ public class Transaction {
 	
 	private Double transactionAmount;
 	private Date transactionDate;
-	private String transactionStatus; // Active, Expired, Inactive
+	private String transactionStatus; // Paid, unpaid 
 	
 	
 	public Integer getTransactionId() {
