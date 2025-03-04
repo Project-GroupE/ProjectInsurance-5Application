@@ -1,13 +1,24 @@
 /*
  * add your task as well as functionality here
+ * task : 833 -> Develop a web service that retrieves policy details for a given Driver/User
+ * developed by Sairaj
+ * functionality : fetch/retrieves policy for given user  
+ *  
  */
 
 package com.example.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,6 +36,9 @@ public class User {
 	private String userAddress;
 	private String userGender;
 	
+	// Added by sairaj - relation one user has many policies
+	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private List<Policy> policyList;
 	
 	public Integer getUserId() {
 		return userId;
@@ -68,10 +82,18 @@ public class User {
 	public void setUserGender(String userGender) {
 		this.userGender = userGender;
 	}
+	
+	@JsonManagedReference
+	public List<Policy> getPolicyList() {
+		return policyList;
+	}
+	public void setPolicyList(List<Policy> policyList) {
+		this.policyList = policyList;
+	}
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", userEmail="
 				+ userEmail + ", userPhone=" + userPhone + ", userAddress=" + userAddress + ", userGender=" + userGender
-				+ "]";
+				+ ", policyList=" + policyList + "]";
 	}
 }
