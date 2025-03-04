@@ -1,15 +1,23 @@
 /*
  * add your task as well as functionality here
+ * task : 833 -> Develop a web service that retrieves policy details for a given Driver/User
+ * developed by Sairaj
+ * functionality : fetch/retrieves policy for given user  
+ * 
  */
 
 package com.example.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,6 +37,10 @@ public class Policy {
 	private Date startDate;
 	private Date endDate;
 	
+	// Added by sairaj - relation many policies have one user
+	@JoinColumn(name = "user_Id_FK",insertable=false, updatable=false)
+	@ManyToOne
+	private User user;
 	
 	public Integer getPolicyId() {
 		return policyId;
@@ -84,11 +96,19 @@ public class Policy {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	@JsonBackReference
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	@Override
 	public String toString() {
 		return "Policy [policyId=" + policyId + ", insuranceCompanyName=" + insuranceCompanyName + ", policyHolderName="
 				+ policyHolderName + ", policyType=" + policyType + ", policyStatus=" + policyStatus
 				+ ", coverageAmount=" + coverageAmount + ", premiumAmount=" + premiumAmount + ", startDate=" + startDate
-				+ ", endDate=" + endDate + "]";
+				+ ", endDate=" + endDate + ", user=" + user + "]";
 	}
 }

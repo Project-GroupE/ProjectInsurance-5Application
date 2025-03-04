@@ -14,4 +14,9 @@ import com.example.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Serializable>{
 
+	/*
+	 * findByUserId() -> added by sairaj
+	 * this method fetch details from DB using user Id
+	 */
+	public User findByUserId(Integer userId);
 }
