@@ -7,6 +7,11 @@ package com.example.service;
 import com.example.entity.User;
 
 public interface UserService {
+	/*
+	 * getUser() -> added by Aniket
+	 * saveUser() method use to save user details with policy
+	 */
+	public User saveUser(User user);
 
 	/*
 	 * getUser() -> added by sairaj
