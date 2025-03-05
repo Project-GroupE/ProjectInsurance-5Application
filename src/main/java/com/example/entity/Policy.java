@@ -2,32 +2,38 @@
  * add your task as well as functionality here
  * task : 833 -> Develop a web service that retrieves policy details for a given Driver/User
  * developed by Sairaj
- * functionality : fetch/retrieves policy for given user  
+ * functionality : fetch/retrieves policy for given user
  * 
+ * task : 175 -> Design web service to add the settlement details once claim is done 
+ * developed by Siddhi
+ * functionality : Adds settlement details for a claim once the claim is processed.
  */
 
 package com.example.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="policy")
 public class Policy {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer policyId; // Primary key
-	
+
 	private String insuranceCompanyName;
 	private String policyHolderName;
 	private String policyType; // Life, General(car, medical, etc.) 
@@ -36,12 +42,16 @@ public class Policy {
 	private Double premiumAmount;
 	private Date startDate;
 	private Date endDate;
-	
+
 	// Added by sairaj - relation many policies have one user
 	@JoinColumn(name = "user_Id_FK",insertable=false, updatable=false)
 	@ManyToOne
 	private User user;
-	
+
+	//Added by siddhi - @OneToMany → Indicates that one Policy can have many Claims
+	@OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
+	private List<Claim> claims;
+
 	public Integer getPolicyId() {
 		return policyId;
 	}
@@ -96,7 +106,7 @@ public class Policy {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
+
 	@JsonBackReference
 	public User getUser() {
 		return user;
