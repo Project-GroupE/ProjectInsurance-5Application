@@ -35,4 +35,14 @@ public class UserServiceImpl implements UserService{
 		}
 		return user;
 	}
+	
+	/*
+	 * saveUser() -> added by Aniket
+	 * this method is use to save user records.
+	 */
+	@Override
+	public User saveUser(User user) {
+		return userRepository.save(user);
+		
+	}
 }
