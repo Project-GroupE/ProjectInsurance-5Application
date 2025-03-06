@@ -4,12 +4,15 @@
 
 package com.example.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,11 +24,21 @@ public class Payment {
 	private Integer paymentId; // Primary key
 	
 	private Double amountPaid;
-	private Date paymentDate;
+	private LocalDate paymentDate;
 	private String paymentStatus; // Pending, Completed	
 	private String paymentMethod; // Debit card, credit card
 	
+	//Added by Namrata 
+	@ManyToOne
+    @JoinColumn(name = "policy_id")
+	private Policy policy;
 	
+	public Policy getPolicy() {
+		return policy;
+	}
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
+	}//End
 	public Integer getPaymentId() {
 		return paymentId;
 	}
@@ -38,11 +51,11 @@ public class Payment {
 	public void setAmountPaid(Double amountPaid) {
 		this.amountPaid = amountPaid;
 	}
-	public Date getPaymentDate() {
+	public LocalDate getPaymentDate() {
 		return paymentDate;
 	}
-	public void setPaymentDate(Date paymentDate) {
-		this.paymentDate = paymentDate;
+	public void setPaymentDate(LocalDate localDate) {
+		this.paymentDate = localDate;
 	}
 	public String getPaymentStatus() {
 		return paymentStatus;

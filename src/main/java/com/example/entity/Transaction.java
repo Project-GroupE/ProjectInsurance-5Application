@@ -4,12 +4,15 @@
 
 package com.example.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,9 +24,17 @@ public class Transaction {
 	private Integer transactionId; // Primary key
 	
 	private Double transactionAmount;
-	private Date transactionDate;
+	private LocalDate transactionDate;//change Date as LocalDate by namrata
 	private String transactionStatus; // Paid, unpaid 
 	
+	//30 to 37 added by Namrata
+	 @ManyToOne
+	    @JoinColumn(name = "policy_id")
+	    private Policy policy;
+	
+	public Policy getPolicy() {
+		return policy;
+	}
 	
 	public Integer getTransactionId() {
 		return transactionId;
@@ -37,11 +48,11 @@ public class Transaction {
 	public void setTransactionAmount(Double transactionAmount) {
 		this.transactionAmount = transactionAmount;
 	}
-	public Date getTransactionDate() {
+	public LocalDate getTransactionDate() {
 		return transactionDate;
 	}
-	public void setTransactionDate(Date transactionDate) {
-		this.transactionDate = transactionDate;
+	public void setTransactionDate(LocalDate localDate) {
+		this.transactionDate = localDate;
 	}
 	public String getTransactionStatus() {
 		return transactionStatus;
@@ -54,4 +65,9 @@ public class Transaction {
 		return "Transaction [transactionId=" + transactionId + ", transactionAmount=" + transactionAmount
 				+ ", transactionDate=" + transactionDate + ", transactionStatus=" + transactionStatus + "]";
 	}
+
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
+	}
+	
 }
