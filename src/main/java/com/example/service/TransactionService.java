@@ -1,5 +1,7 @@
 /*
  * add your task as well as functionality here
+ * 824 -> create webservice to perform crud operations for transaction. 
+
  */
 
 package com.example.service;
@@ -16,4 +18,7 @@ public interface TransactionService {
 	public Transaction updateTransaction(Long transactionId, Double amount);
 	
 	public List<Transaction> getTransactionsByPolicy(Long policyId);//End
+	
+	// added by Gokarna
+	public void deleteByTransactionId(Integer transactionId);
 }
