@@ -1,5 +1,6 @@
 /*
  * add your task as well as functionality here
+ * 824 -> create webservice to perform crud operations for transaction. 
  */
 
 package com.example.restcontroller;
@@ -9,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,4 +50,18 @@ public class TransactionRestController {
         List<Transaction> transactions = transactionService.getTransactionsByPolicy(policyId);
         return ResponseEntity.ok(transactions);
     }//End
+    
+    
+    
+    // added by Gokarna
+    /*
+     * http://localhost:8181/transaction/deleteByTransactionId/4
+     */
+    @DeleteMapping("/deleteByTransactionId/{transactionId}")
+    public void deleteByTransactionId(@PathVariable Integer transactionId) {
+    	
+    	transactionService.deleteByTransactionId(transactionId);
+    	
+    	
+    }
 }

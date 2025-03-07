@@ -1,6 +1,7 @@
 /*
  * add your task as well as functionality here
- */
+ * 824 -> create webservice to perform crud operations for transaction. 
+*/
 
 package com.example.implementation;
 
@@ -21,39 +22,48 @@ import com.example.repository.TransactionRepository;
 import com.example.service.TransactionService;
 
 @Service
-public class TransactionServiceImpl implements TransactionService{
-	//Added by Nmarata to get updat and add transaction
+public class TransactionServiceImpl implements TransactionService {
+	// Added by Nmarata to get updat and add transaction
 	@Autowired
-    private TransactionRepository transactionRepository;
+	private TransactionRepository transactionRepository;
 
-    @Autowired
-    private PolicyRepository policyRepository;
-    
-    
-    public Transaction createTransaction(Long policyId, Double amount) {
-        // Check if the policy is active
-        Policy policy = policyRepository.findByPolicyIdAndStatus(policyId, PolicyStatus.ACTIVE)
-                .orElseThrow(() -> new PolicyNotActiveException("Policy is not active"));
+	@Autowired
+	private PolicyRepository policyRepository;
 
-        // Create transaction
-        Transaction transaction = new Transaction();
-        transaction.setTransactionAmount(amount);
-        transaction.setTransactionDate(LocalDate.now());
-        transaction.setTransactionStatus("PAID");
-        transaction.setPolicy(policy);
+	public Transaction createTransaction(Long policyId, Double amount) {
+		// Check if the policy is active
+		Policy policy = policyRepository.findByPolicyIdAndStatus(policyId, PolicyStatus.ACTIVE)
+				.orElseThrow(() -> new PolicyNotActiveException("Policy is not active"));
 
-        return transactionRepository.save(transaction);
-    }
+		// Create transaction
+		Transaction transaction = new Transaction();
+		transaction.setTransactionAmount(amount);
+		transaction.setTransactionDate(LocalDate.now());
+		transaction.setTransactionStatus("PAID");
+		transaction.setPolicy(policy);
 
-    public Transaction updateTransaction(Long transactionId, Double amount) {
-        Transaction transaction = transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
+		return transactionRepository.save(transaction);
+	}
 
-        transaction.setTransactionAmount(amount);
-        return transactionRepository.save(transaction);
-    }
+	public Transaction updateTransaction(Long transactionId, Double amount) {
+		Transaction transaction = transactionRepository.findById(transactionId)
+				.orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
 
-    public List<Transaction> getTransactionsByPolicy(Long policyId) {
-        return transactionRepository.findByPolicy_PolicyId(policyId);
-    }
+		transaction.setTransactionAmount(amount);
+		return transactionRepository.save(transaction);
+	}
+
+	public List<Transaction> getTransactionsByPolicy(Long policyId) {
+		return transactionRepository.findByPolicy_PolicyId(policyId);
+	}
+
+	// added by Gokarna
+	@Override
+	public void deleteByTransactionId(Integer transactionId) {
+		Transaction transaction = transactionRepository.findById(transactionId)
+				.orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
+
+		transactionRepository.deleteById(transactionId);
+
+	}
 }
