@@ -11,6 +11,10 @@
  * Task : 1154 -> Design Webservice to save user for insurance/Policy 
  * developed by Aniket
  * functionality : to save user details with policy.
+ * 
+ * Task : 832 -> get pagination and sorting for Traffic Violation and Vehicle microservice 
+ * developed by Aniket
+ * functionality : to save user details with TrafficViolation and Vehicle
  *  
  */
 
@@ -18,6 +22,7 @@ package com.example.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -47,6 +52,16 @@ public class User {
 	// Added by sairaj - relation one user has many policies
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Policy> policyList;
+
+	// Added by Aniket - relation one user has many Traffic Violations
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("user") // added by Aniket-to ignore unwanted fields
+	private List<TrafficViolation> trafficViolationList;
+
+	// Added by Aniket - relation one user has many vehicles
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("user")
+	private List<Vehicle> vehicleList;
 
 	public Integer getUserId() {
 		return userId;
@@ -113,11 +128,28 @@ public class User {
 		this.policyList = policyList;
 	}
 
+	public List<TrafficViolation> getTrafficViolationList() {
+		return trafficViolationList;
+	}
+
+	public void setTrafficViolationList(List<TrafficViolation> trafficViolationList) {
+		this.trafficViolationList = trafficViolationList;
+	}
+
+	public List<Vehicle> getVehicleList() {
+		return vehicleList;
+	}
+
+	public void setVehicleList(List<Vehicle> vehicleList) {
+		this.vehicleList = vehicleList;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", userEmail="
 				+ userEmail + ", userPhone=" + userPhone + ", userAddress=" + userAddress + ", userGender=" + userGender
-				+ ", policyList=" + policyList + "]";
+				+ ", policyList=" + policyList + ", trafficViolationList=" + trafficViolationList + ", vehicleList="
+				+ vehicleList + "]";
 	}
 
 }
