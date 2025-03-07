@@ -1,5 +1,7 @@
 /*
  * add your task as well as functionality here
+ * Task 825 -> create webservice for saving a payment.
+ * designed by Namrata
  */
 
 package com.example.entity;
@@ -16,59 +18,71 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="payment")
+@Table(name = "payment")
 public class Payment {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer paymentId; // Primary key
-	
+
 	private Double amountPaid;
 	private LocalDate paymentDate;
-	private String paymentStatus; // Pending, Completed	
+	private String paymentStatus; // Pending, Completed
 	private String paymentMethod; // Debit card, credit card
-	
-	//Added by Namrata 
+
+	// Added by Namrata
 	@ManyToOne
-    @JoinColumn(name = "policy_id")
+	@JoinColumn(name = "policy_id")
 	private Policy policy;
-	
+
 	public Policy getPolicy() {
 		return policy;
 	}
+
 	public void setPolicy(Policy policy) {
 		this.policy = policy;
-	}//End
+	}// End
+
 	public Integer getPaymentId() {
 		return paymentId;
 	}
+
 	public void setPaymentId(Integer paymentId) {
 		this.paymentId = paymentId;
 	}
+
 	public Double getAmountPaid() {
 		return amountPaid;
 	}
+
 	public void setAmountPaid(Double amountPaid) {
 		this.amountPaid = amountPaid;
 	}
+
 	public LocalDate getPaymentDate() {
 		return paymentDate;
 	}
+
 	public void setPaymentDate(LocalDate localDate) {
 		this.paymentDate = localDate;
 	}
+
 	public String getPaymentStatus() {
 		return paymentStatus;
 	}
+
 	public void setPaymentStatus(String paymentStatus) {
 		this.paymentStatus = paymentStatus;
 	}
+
 	public String getPaymentMethod() {
 		return paymentMethod;
 	}
+
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
+
 	@Override
 	public String toString() {
 		return "Payment [paymentId=" + paymentId + ", amountPaid=" + amountPaid + ", paymentDate=" + paymentDate
