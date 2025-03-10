@@ -16,12 +16,17 @@
  * developed by Aniket
  * functionality : to save user details with TrafficViolation and Vehicle
  *  
+ *  Task : 177 -> Design web service to get the settlement details
+ * developed by Siddhi
+ * functionality : Fetch settlement details 
+ *               -> fetch all settlement applied by user(As per UI task 1211 & 1197)
  */
 
 package com.example.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -62,6 +67,37 @@ public class User {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("user")
 	private List<Vehicle> vehicleList;
+
+	// Added by Siddhi - relation one user has many claims
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Claim> claimList;
+
+	// Getters and Setters
+	// Added by Siddhi - claimList
+	@JsonIgnore // Prevents recursion from claim
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	public List<Claim> getClaimList() {
+		return claimList;
+	}
+
+	// Added by Siddhi - Mapping Settlement with User
+	@JsonIgnore //Prevents recursion from settlement
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Settlement> settlementList;
+
+	// Getters and Setters
+	public List<Settlement> getSettlementList() {
+		return settlementList;
+	}
+
+	public void setSettlementList(List<Settlement> settlementList) {
+		this.settlementList = settlementList;
+	}
+
+
+	public void setClaimList(List<Claim> claimList) {
+		this.claimList = claimList;
+	}
 
 	public Integer getUserId() {
 		return userId;

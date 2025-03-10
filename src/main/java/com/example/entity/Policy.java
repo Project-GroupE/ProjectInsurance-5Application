@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -53,15 +54,15 @@ public class Policy {
 	private Double premiumAmount;
 	private Date startDate;
 	private Date endDate;
-	
+
 	//Added by Namrata start
 	@Enumerated(EnumType.STRING) //annotation is used to define enum values
-    private PolicyStatus status;
-	
+	private PolicyStatus status;
+
 	public enum PolicyStatus {
-	    ACTIVE, INACTIVE, EXPIRED
+		ACTIVE, INACTIVE, EXPIRED
 	}//End
-	
+
 
 	// Added by sairaj - relation many policies have one user
 	@JoinColumn(name = "user_Id_FK", insertable = false, updatable = false)
@@ -72,6 +73,7 @@ public class Policy {
 	private Integer userId;// added by Aniket
 
 	// Added by siddhi - @OneToMany → Indicates that one Policy can have many Claims
+	@JsonIgnore // ✅ Prevents recursion from claims
 	@OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
 	private List<Claim> claims;
 
