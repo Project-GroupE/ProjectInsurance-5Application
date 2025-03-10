@@ -11,6 +11,7 @@
  * task : 177 -> Design web service to get the settlement details
  * developed by Siddhi
  * functionality : Fetch settlement details 
+ *               -> fetch all settlement applied by user(As per UI task 1211 & 1197)
  * 
  */
 
@@ -20,9 +21,11 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "settlement")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Settlement {
 
 	@Id
@@ -31,9 +34,9 @@ public class Settlement {
 
 	// Added by siddhi - many-to-one relationship where multiple settlements are
 	// linked to a single claim
-	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "claim_id", nullable = false)
+	@JsonIgnoreProperties("settlements")
 	private Claim claim;
 
 	private Double settledAmount;
@@ -41,6 +44,22 @@ public class Settlement {
 	private String settlementStatus; // Pending, Paid
 	private String settlementMethod; // Bank Transfer, Cheque, Cash
 	private String paymentReference; // Payment reference number
+
+	// Added by Siddhi - Mapping Settlement with User
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	@JsonIgnoreProperties("settlements")
+	private User user;
+
+	// ✅ Added getter and setter for User
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public Integer getSettlementId() {
 		return settlementId;

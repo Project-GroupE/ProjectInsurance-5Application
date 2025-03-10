@@ -2,7 +2,8 @@
  * add your task as well as functionality here
  * task : 175 -> Design web service to add the settlement details once claim is done 
  * developed by Siddhi
- * functionality : Adds settlement details for a claim once the claim is processed.
+ * functionality :->Adds settlement details for a claim once the claim is processed.
+ *                ->fetch all claims applied by user(As per UI Task(1210,1200) 
  */
 
 package com.example.entity;
@@ -11,6 +12,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -31,9 +33,25 @@ public class Claim {
 	private Policy policy; // Foreign key reference to Policy
 
 	// Added by siddhi - One-to-Many: A Claim can have multiple Settlements
-	@JsonManagedReference
+	@JsonIgnore // Prevents recursion from settlements
 	@OneToMany(mappedBy = "claim", cascade = CascadeType.ALL)
 	private List<Settlement> settlements;
+
+	// Added by Siddhi - Many Claims Can Belong To One User
+	@JsonIgnore // Prevents recursion from user
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
+
+
+	// Getter and Setter for User
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public Integer getClaimId() {
 		return claimId;
